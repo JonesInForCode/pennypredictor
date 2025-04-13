@@ -32,8 +32,8 @@ The application is designed to be:
 
 1. Clone the repository
 ```bash
-git clone https://github.com/JonesInForCode/penny-predictor.git
-cd penny-predictor
+git clone https://github.com/JonesInForCode/pennypredictor.git
+cd pennypredictor
 ```
 
 2. Install dependencies
