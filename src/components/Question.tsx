@@ -14,12 +14,15 @@ const Question: React.FC<QuestionProps> = ({ question, onAnswer }) => {
   return (
     <div>
       <h2>{question.text}</h2>
+      <label>
+        {question.text}
       <input
         type="text"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         />
-        <button onClick={handleSubmit}>Next</button>
+      </label>
+        <button type='button' onClick={handleSubmit}>Next</button>
     </div>);
 };
 
