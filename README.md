@@ -98,7 +98,7 @@ Budget Projector is developed and maintained by JonesInForCode, a developer pass
 
 Connect with me:
 - [GitHub](https://github.com/JonesInForCode)
-- [LinkedIn](https://www.linkedin.com/in/NicolasJones/)
+- [LinkedIn](https://www.linkedin.com/in/nicolas-jones-0930b6177/)
 
 ## Acknowledgments
 
