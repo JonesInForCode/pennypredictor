@@ -2,7 +2,7 @@
 
 A simple, intuitive web application to help users project their monthly budget based on their income and expenses.
 
-![Penny Predictor Screenshot](https://github.com/JonesInForCode/penny-predictor/blob/main/src/assets/screenshot.png?raw=true)
+![Penny Predictor Screenshot](https://github.com/JonesInForCode/pennypredictor/blob/main/public/Screenshot.png?raw=true)
 
 ## Overview
 
