@@ -1,54 +1,105 @@
-# React + TypeScript + Vite
+# Penny Predictor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple, intuitive web application to help users project their monthly budget based on their income and expenses.
 
-Currently, two official plugins are available:
+![Penny Predictor Screenshot](https://github.com/JonesInForCode/penny-predictor/blob/main/src/assets/screenshot.png?raw=true)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Overview
 
-## Expanding the ESLint configuration
+The Penny Predictor helps users create a monthly budget projection by guiding them through a series of questions about their income and expenses. It calculates how much "wiggle room" they have for discretionary spending based on their inputs.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The application is designed to be:
+- **Simple**: Easy to use with a straightforward interface
+- **Insightful**: Provides helpful budget calculations and insights
+- **Responsive**: Works well on both desktop and mobile devices
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Features
+
+- Project monthly income based on your paycheck
+- Track expected bills and additional expenses
+- Calculate your financial "wiggle room"
+- View your budget breakdown with percentage allocations
+- Calculate daily spending allowance
+
+## Technology Stack
+
+- React
+- TypeScript
+- CSS for styling
+- Vite for build tooling
+
+## Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/JonesInForCode/penny-predictor.git
+cd penny-predictor
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+2. Install dependencies
+```bash
+npm install
 ```
+
+3. Run the development server
+```bash
+npm run dev
+```
+
+4. Build for production
+```bash
+npm run build
+```
+
+## Usage
+
+1. Enter your most recent paycheck amount
+2. Enter your total monthly bills
+3. Enter your expected additional expenses
+4. View your budget projection with insights on spending capacity
+
+## Planned Features
+
+### Short-term
+
+- Support for multiple income types:
+  - Weekly pay periods
+  - Bi-weekly pay periods (current)
+  - Monthly salary
+  - Variable income options
+
+- Light/dark mode toggle
+- Option to save budgets locally
+
+### Long-term
+
+- **Advanced Budget Projector**: A detailed budget creation process that guides users through specific expense categories:
+  - Housing (rent/mortgage, utilities, insurance)
+  - Transportation (car payment, gas, maintenance, public transport)
+  - Food (groceries, dining out)
+  - Health (insurance, medications, gym memberships)
+  - Entertainment (streaming services, hobbies)
+  - Debt payments (credit cards, loans)
+  - Savings goals
+
+- Budget comparison tools
+- Expense tracking functionality
+- Data visualization with charts and graphs
+- Budget templates for different income levels and life situations
+- Export to CSV/PDF functionality
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## About the Developer
+
+Budget Projector is developed and maintained by JonesInForCode, a developer passionate about creating practical tools to solve real-world problems.
+
+Connect with me:
+- [GitHub](https://github.com/JonesInForCode)
+- [LinkedIn](https://www.linkedin.com/in/NicolasJones/)
+
+## Acknowledgments
+
+- Special thanks to the open source community for their amazing tools and libraries
