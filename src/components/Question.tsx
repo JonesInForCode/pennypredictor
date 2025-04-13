@@ -1,57 +1,95 @@
 import React, { useState } from 'react';
 
-interface Question {
-  id: number;
-  text: string;
-}
 interface QuestionProps {
-  question: Question;
+  question: { id: number; text: string };
   onAnswer: (id: number, answer: string | boolean) => void;
-  type?: 'text' | 'radio';
-  options?: string[];
+  onBack?: () => void;
+  currentStep: number;
+  totalSteps: number;
+  previousAnswer?: string;
 }
 
 const Question: React.FC<QuestionProps> = ({
   question,
   onAnswer,
-  type = 'text',
-  options = [],
+  onBack,
+  currentStep,
+  totalSteps,
+  previousAnswer = '',
 }) => {
-  const [answer, setAnswer] = useState('');
+  const [answer, setAnswer] = useState(previousAnswer);
+  const [error, setError] = useState('');
+
+  const validateAnswer = (value: string): boolean => {
+    if (!value.trim()) {
+      setError('Please enter an answer.');
+      return false;
+    }
+
+    const numberValue = parseFloat(value);
+    if (isNaN(numberValue)) {
+      setError('Please enter a valid number.');
+      return false;
+    }
+
+    if (numberValue < 0) {
+      setError('Please enter a positive number.');
+      return false;
+    }
+
+    setError('');
+    return true;
+  };
 
   const handleSubmit = () => {
-    onAnswer(question.id, type === 'radio' ? options.indexOf(answer) === 0 : answer);
+    if (validateAnswer(answer)) {
+      onAnswer(question.id, answer);
+    }
   };
+
   return (
-    <div>
+    <div className='question-container'>
+      <div className='progress-indicator'>
+        Step {currentStep} of {totalSteps}
+      </div>
       <h2>{question.text}</h2>
-      {type === 'text' ? (
-        <input
-          placeholder="Enter your answer"
-          type="text"
+      <div className='input-group'>
+        <label htmlFor={`question-${question.id}`}>
+          <span className='currency-symbol'>$</span>
+          <input
+          id={`question-${question.id}`}
+          type="number"
+          min="0"
+          step="0.01"
           value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
-        />
-      ) : (
-        <div>
-          {options.map((option, index) => (
-            <div key={index}>
-              <input
-                placeholder='Enter your answer'
-                type="radio"
-                name="payFrequency"
-                value={option}
-                checked={answer === option}
-                onChange={(e) => setAnswer(e.target.value)}
-              />
-              <label>{option}</label>
-            </div>
-          ))}
-        </div>
-      )}
-      <button type="button" onClick={handleSubmit}>
-        Next
-      </button>
+          onChange={(e) => {
+            setAnswer(e.target.value);
+            if (error) validateAnswer(e.target.value);
+          }}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter')
+              handleSubmit();
+            }}
+          />
+          </label>
+          {error && <div className="error-message">{error}</div>}
+      </div>
+
+      <div className='button-group'>
+        {onBack && currentStep > 1 && (
+          <button type="button" onClick={onBack} className='back-button'>
+            Back
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className='next-button'
+          disabled={!answer.trim()}
+          >
+            {currentStep === totalSteps ? 'Calculate Budget' : 'Next'}
+          </button>
+      </div>
     </div>
   );
 };

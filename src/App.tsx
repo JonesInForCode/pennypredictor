@@ -1,60 +1,97 @@
-import React, { useState } from "react";
-import Question from "./components/Question.tsx";
-import Summary from "./components/Summary.tsx";
+import React, { useState } from 'react';
+import Question from './components/Question';
+import Summary from './components/Summary';
+import './App.css';
 
-interface QuestionType {
+// Define better types for our data
+interface BudgetQuestion {
   id: number;
   text: string;
+  explanation?: string;
 }
 
-interface Answer {
-  [key: number]: string | boolean;
+interface BudgetData {
+  biweeklyPaycheck: number;
+  monthlyBills: number;
+  additionalExpenses: number;
 }
 
-const questions: QuestionType[] = [
-  {
-    id: 1,
-    text: "What is your expected income on your first paycheck of the month?",
+const questions: BudgetQuestion[] = [
+  { 
+    id: 1, 
+    text: 'What is your most recent paycheck amount?',
+    explanation: 'Enter the net (after-tax) amount from your most recent paycheck'
   },
-  { id: 2, text: "How often do you get paid?" },
-  { id: 3, text: "What are your expected bills?" },
-  { id: 4, text: "What are your expected expenditures?" },
+  { 
+    id: 2, 
+    text: 'What are your total monthly bills?',
+    explanation: 'Include rent/mortgage, utilities, subscriptions, loan payments, etc.'
+  },
+  { 
+    id: 3, 
+    text: 'What are your expected additional expenses?',
+    explanation: 'Include groceries, gas, entertainment, and other variable expenses'
+  },
 ];
 
 function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Answer>({});
-  const [payFrequency, setPayFrequency] = useState(false); // weekly = true, bi-weekly = false
-
-  const handleAnswer = (id: number, answer: string | boolean) => {
-    if (id === 2) {
-      if (answer as boolean) {
-        setPayFrequency(answer as boolean);
-      } else {
-        console.error("Invalid answer type");
-      }
-    }
+  const [answers, setAnswers] = useState<{ [key: number]: string }>({});
+  const [showSummary, setShowSummary] = useState(false);
+  
+  const handleAnswer = (id: number, answer: string) => {
     setAnswers({ ...answers, [id]: answer });
-    setCurrentQuestion(currentQuestion + 1);
+    
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setShowSummary(true);
+    }
   };
-
+  
+  const handleBack = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  };
+  
+  const handleReset = () => {
+    setAnswers({});
+    setCurrentQuestion(0);
+    setShowSummary(false);
+  };
+  
+  // Process the answers into a more usable format
+  const processedData: BudgetData = {
+    biweeklyPaycheck: parseFloat(answers[1] || '0'),
+    monthlyBills: parseFloat(answers[2] || '0'),
+    additionalExpenses: parseFloat(answers[3] || '0'),
+  };
+  
   return (
-    <div>
-      {currentQuestion < questions.length ? (
-        <Question
-          question={questions[currentQuestion]}
-          onAnswer={handleAnswer}
-          type={currentQuestion === 1 ? "radio" : "text"}
-          options={currentQuestion === 1 ? ["Weekly", "Bi-Weekly"] : []}
-        />
-      ) : (
-        <Summary
-          answers={Object.fromEntries(
-            Object.entries(answers).map(([key, value]) => [key, String(value)])
-          )}
-          payFrequency={payFrequency}
-        />
-      )}
+    <div className="budget-app">
+      <header>
+        <h1>Monthly Budget Projector</h1>
+        <p>Plan your month based on your paycheck</p>
+      </header>
+      
+      <main>
+        {!showSummary ? (
+          <Question
+            question={questions[currentQuestion]}
+            onAnswer={handleAnswer}
+            onBack={handleBack}
+            currentStep={currentQuestion + 1}
+            totalSteps={questions.length}
+            previousAnswer={answers[questions[currentQuestion].id]}
+          />
+        ) : (
+          <Summary 
+            data={processedData} 
+            onReset={handleReset}
+          />
+        )}
+      </main>
     </div>
   );
 }
