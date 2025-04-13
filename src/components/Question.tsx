@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface QuestionProps {
   question: { id: number; text: string };
-  onAnswer: (id: number, answer: string | boolean) => void;
+  onAnswer: (id: number, answer: string) => void;
   onBack?: () => void;
   currentStep: number;
   totalSteps: number;
@@ -19,6 +19,14 @@ const Question: React.FC<QuestionProps> = ({
 }) => {
   const [answer, setAnswer] = useState(previousAnswer);
   const [error, setError] = useState('');
+
+  // Reset the answer when the question changes
+  React.useEffect(() => {
+    // If there's a previous answer for this question, use it
+    // Otherwise, use an empty string
+    setAnswer(previousAnswer || '');
+    setError('');
+  }, [question.id, previousAnswer]);
 
   const validateAnswer = (value: string): boolean => {
     if (!value.trim()) {
